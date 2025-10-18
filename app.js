@@ -11,7 +11,7 @@ app.get("/", (req, res) => { /**Definiamo la rotta principale ("/")*/
     res.send("<h1>Server del mio blog</h1>") /**Risposta inviata al client quando visita la home*/
 }); 
 
-app.use("/posts", postsRouter); /**Indichiamo che tutte le rotte definite in "posts.js" partiranno con /posts*/
+app.use("/posts", postsRouter); /**Indichiamo che tutte le rotte definite in "posts.js" partiranno con /posts (montiamo il router per i post)*/
 
 app.listen(port, () => { /**Avviamo il server e lo facciamo "ascoltare" sulla porta indicata precedentemente*/
     console.log(`Prova di ricezione ${port}`); /**Console.log di prova per vedere se arriva la "chiamata"*/
