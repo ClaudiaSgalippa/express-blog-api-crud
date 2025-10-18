@@ -1,3 +1,5 @@
+const posts = require("../data/postsData.js") /**Import dell'array dei post*/
+
 function index(req, res) { /**Mostra tutti i post*/
   res.send("Elenco di tutti i post");
 }
