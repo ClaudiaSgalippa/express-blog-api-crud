@@ -1,7 +1,16 @@
 const posts = require("../data/postsData.js") /**Import dell'array dei post*/
 
-function index(req, res) { /**Mostra tutti i post*/
-  res.json(posts); /**Ora in formato JSON*/
+function index(req, res) { /**Mostra tutti i post*/  
+  const tag = req.query.tag; /**Salviamo il valore del parametro "tag" dalla query string, se presente*/
+
+  if (!tag) { /**Se non è stato specificato nessun tag, restituiamo tutti i post in formato JSON*/
+    return res.json(posts);
+  }
+  const filteredPosts = posts.filter(post => /**Altrimenti filtriamo i post che includono quel tag*/
+    post.tags.includes(tag)
+  );
+
+  res.json(filteredPosts); /**Restituiamo solo i post filtrati, in formato JSON**/
 }
 
 function show(req, res) { /**Mostra un singolo post in base all'ID*/
