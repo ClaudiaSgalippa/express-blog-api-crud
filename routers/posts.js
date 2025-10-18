@@ -1,6 +1,8 @@
 const express = require("express"); /**Importiamo il framework "Express"*/
 const router = express.Router(); /**Creiamo un router*/
 
+const postsController = require("../controllers/postsController.js"); /**Import del controller*/
+
 const posts = [
   {
     id: 1,
@@ -47,31 +49,11 @@ const posts = [
   },
 ];
 
-/** Creiamo le rotte per le operazioni CRUD*/
+//**Rotte CRUD*/
+router.get("/", postsController.index); /**INDEX - Mostra tutti i post*/
+router.get("/:id", postsController.show); /**SHOW - Mostra un singolo post in base all'ID*/
+router.post("/", postsController.store); /**STORE - Crea un nuovo post*/
+router.put("/:id", postsController.update); /**UPDATE - Modifica del post tramite ID*/
+router.delete("/:id", postsController.destroy); /**DESTROY - Elimina il post tramite ID*/
 
-/**INDEX*/
-router.get("/", (req, res) => {
-  res.json(posts); /**Invia l’intero array come JSON - BONUS 1*/
-});
-
-/**SHOW*/
-router.get("/:id", (req, res) => {
-  res.send("Info del post" + req.params.id);
-});
-
-/**CREATE*/
-router.post("/", (req, res) => {
-  res.send("Creazione di un nuovo post");
-});
-
-/**UPDATE*/
-router.put("/:id", (req, res) => {
-  res.send("Modifica del post" + req.params.id);
-});
-
-/**DELETE*/
-router.delete("/:id", (req, res) => {
-  res.send("Delete del post" + req.params.id);
-});
-
-module.exports = router;
+module.exports = router; /**Esportiamo il router per poterlo usare*/
