@@ -16,7 +16,17 @@ function index(req, res) { /**Mostra tutti i post*/
 function show(req, res) { /**Mostra un singolo post in base all'ID*/
   const id = parseInt(req.params.id); /**Recuperiamo l'ID dall'URL e lo trasformiamo in un numero*/
   const post = posts.find(post => post.id === id); /**Cerchiamo il post nell'array tramite ID*/
-  res.json(post); /**Ora in formato JSON*/
+  
+  if (!post) { /**Se non troviamo alcun post con quell'ID*/
+    res.status(404); /**Imposta lo status HTTP 404*/
+    return res.json({ /**Sempre in formato JSON*/
+      status: 404, /**Codice errore*/
+      error: "Not Found", /**Tipo di errore*/
+      message: "Post non trovato" /**Messaggio d'errore*/
+    });
+  }
+  
+  res.json(post); /**Se invece esiste, restituiamo il post (sempre in formato JSON)*/
 }
 
 function store(req, res) { /**Crea un nuovo post*/
@@ -31,7 +41,15 @@ function destroy(req, res) { /**Elimina il post tramite ID*/
   const id = parseInt(req.params.id); /**Recuperiamo l'ID dall'URL e lo trasformiamo in un numero*/
   const post = posts.find(post => post.id === id); /**Cerchiamo il post nell'array tramite ID*/
 
-  posts.splice(posts.indexOf(post), 1); /**Rimuoviamo il post*/
+  if (!post) { /**Se non troviamo alcun post con quell'ID*/
+    res.status(404); /**Imposta lo status HTTP 404*/
+    return res.json({ /**Sempre in formato JSON*/
+      status: 404, /**Codice errore*/
+      error: "Not Found", /**Tipo di errore*/
+      message: "Post non trovato" /**Messaggio d'errore*/
+    });
+  }
+  posts.splice(posts.indexOf(post), 1); /**Se invece esiste, rimuoviamo il post*/
   console.log("Lista aggiornata dei post:", posts); /**Stampiamo la lista aggiornata nel terminale*/
   res.sendStatus(204); /**Rispondiamo con stato 204 (No Content)*/
 }
