@@ -1,5 +1,7 @@
+/**CRUD*/
 const posts = require("../data/postsData.js") /**Import dell'array dei post*/
 
+/**INDEX*/
 function index(req, res) { /**Mostra tutti i post*/  
   const tag = req.query.tag; /**Salviamo il valore del parametro "tag" dalla query string, se presente*/
 
@@ -13,6 +15,7 @@ function index(req, res) { /**Mostra tutti i post*/
   res.json(filteredPosts); /**Restituiamo solo i post filtrati, in formato JSON**/
 }
 
+/**SHOW*/
 function show(req, res) { /**Mostra un singolo post in base all'ID*/
   const id = parseInt(req.params.id); /**Recuperiamo l'ID dall'URL e lo trasformiamo in un numero*/
   const post = posts.find(post => post.id === id); /**Cerchiamo il post nell'array tramite ID*/
@@ -29,6 +32,7 @@ function show(req, res) { /**Mostra un singolo post in base all'ID*/
   res.json(post); /**Se invece esiste, restituiamo il post (sempre in formato JSON)*/
 }
 
+/**STORE*/
 function store(req, res) { /**Crea un nuovo post*/
   const newId = posts[posts.length - 1].id + 1; /**Creazione di un nuovo id, incrementando di +1 quello già presente*/
   const newPost = {
@@ -46,10 +50,31 @@ function store(req, res) { /**Crea un nuovo post*/
   res.json(newPost); /**Restituzione del nuovo post*/
 }
 
+/**UPDATE*/
 function update(req, res) { /**Modifica del post tramite ID*/
-  res.send("Modifica di un post" + req.params.id);
+  const id = parseInt(req.params.id); /**Recuperiamo l'ID dall'URL e lo trasformiamo in un numero*/
+  const post = posts.find(post => post.id === id); /**Cerchiamo il post nell'array tramite ID*/
+
+  if (!post) { /**Se non troviamo alcun post con quell'ID*/
+    res.status(404); /**Imposta lo status HTTP 404*/
+    return res.json({ /**Sempre in formato JSON*/
+      status: 404, /**Codice errore*/
+      error: "Not Found", /**Tipo di errore*/
+      message: "Post non trovato" /**Messaggio d'errore*/
+    });
+  }
+
+  /**Aggiorniamo i campi del post con i nuovi valori ricevuti nel body*/
+  post.title = req.body.title || post.title;
+  post.content = req.body.content || post.content;
+  post.image = req.body.image || post.image;
+  post.tags = req.body.tags || post.tags;
+
+  console.log(post) /**Check dei post*/
+  res.json(post); /**Restituiamo il post aggiornato*/
 }
 
+/**DESTROY*/
 function destroy(req, res) { /**Elimina il post tramite ID*/
   const id = parseInt(req.params.id); /**Recuperiamo l'ID dall'URL e lo trasformiamo in un numero*/
   const post = posts.find(post => post.id === id); /**Cerchiamo il post nell'array tramite ID*/
