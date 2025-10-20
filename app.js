@@ -5,7 +5,7 @@ const postsRouter = require("./routers/posts.js"); /**Import del router con le r
 
 app.use(express.static("public")); /**Middleware - Configuriamo la cartella "public" per rendere siponibili i file "statici" (le immagini)*/
 
-app.use(express.json()); /**Middleware - Configuriamo il file per leggere i dati JSON (for POST & PUT)*/
+app.use(express.json()); /**Middleware - attivazione Bodyparser - Configuriamo il file per leggere i dati JSON (per le CRUD: prima per INDEX, SHOW & DESTROY, ora anche per STORE)*/
 
 app.get("/", (req, res) => { /**Definiamo la rotta principale ("/")*/
     res.send("<h1>Server del mio blog</h1>") /**Risposta inviata al client quando visita la home*/

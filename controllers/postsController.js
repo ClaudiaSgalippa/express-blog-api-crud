@@ -30,7 +30,8 @@ function show(req, res) { /**Mostra un singolo post in base all'ID*/
 }
 
 function store(req, res) { /**Crea un nuovo post*/
-  res.send("Creazione di un nuovo post");
+  console.log("Dati ricevuti dal body:", req.body); /**Prova di stampa nel terminale*/
+  res.send("Creazione di un nuovo post - PROVA");
 }
 
 function update(req, res) { /**Modifica del post tramite ID*/
