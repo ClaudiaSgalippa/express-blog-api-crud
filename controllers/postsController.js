@@ -30,8 +30,20 @@ function show(req, res) { /**Mostra un singolo post in base all'ID*/
 }
 
 function store(req, res) { /**Crea un nuovo post*/
-  console.log("Dati ricevuti dal body:", req.body); /**Prova di stampa nel terminale*/
-  res.send("Creazione di un nuovo post - PROVA");
+  const newId = posts[posts.length - 1].id + 1; /**Creazione di un nuovo id, incrementando di +1 quello già presente*/
+  const newPost = {
+    id: newId,
+    title: req.body.title,
+    content: req.body.content,
+    image: req.body.image,
+    tags: req.body.tags
+  }; /**Creiamo un nuovo oggetto post con i dati ricevuti dal body*/
+
+  posts.push(newPost); /**Aggiungiamo il nuovo post all'array esistente*/
+  console.log(posts) /**Check di controllo*/
+
+  res.status(201); /**Restituzione dello stato*/
+  res.json(newPost); /**Restituzione del nuovo post*/
 }
 
 function update(req, res) { /**Modifica del post tramite ID*/
